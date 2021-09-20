@@ -1,6 +1,8 @@
-import { Actor, Color, Engine, Shape } from "excalibur";
+import { Color, Engine, Random, Timer, Vector } from "excalibur";
 import { Block } from "./block";
+import { Ball } from "./ball";
 import { loader } from "./resource";
+import { TwoPI } from "excalibur/dist/Util";
 
 const game = new Engine({
   width: 800,
@@ -34,6 +36,26 @@ const setupBlocks = (game: Engine, width: number, height: number) => {
 game.start(loader).then(() => {
   const block = new Block(0, 0, 100, 100, Color.Red);
   game.add(block);
+
+  const ball = new Ball(
+    new Vector(game.canvasWidth * 0.2, game.canvasHeight * 0.7),
+    game.canvas.height * 0.02
+  );
+  game.add(ball);
+
+  const timer = new Timer({
+    fcn: () => {
+      const rand = new Random();
+      const r = rand.floating(-TwoPI, TwoPI);
+      const x = Math.cos(r) * 80;
+      const y = Math.sin(r) * 80;
+      ball.vel.x = x;
+      ball.vel.y = y;
+    },
+    interval: 1000,
+    repeats: false,
+  });
+  game.add(timer);
 
   setupBlocks(game, game.canvasWidth, game.canvasHeight);
 });
