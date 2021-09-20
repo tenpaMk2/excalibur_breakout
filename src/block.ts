@@ -2,7 +2,6 @@ import {
   Actor,
   Body,
   Collider,
-  CollisionGroupManager,
   CollisionType,
   Color,
   Shape,
@@ -19,13 +18,13 @@ export class Block extends Actor {
   ) {
     super({
       pos: new Vector(x, y),
+      color: color,
       body: new Body({
         collider: new Collider({
           type: CollisionType.Passive,
-          shape: Shape.Box(width, height),
+          shape: Shape.Box(width, height, Vector.Zero),
         }),
       }),
     });
-    this.color = color;
   }
 }
