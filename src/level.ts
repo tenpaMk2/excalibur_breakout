@@ -22,13 +22,7 @@ export class Level extends Scene {
     const ys = [...Array(numOfColumn).keys()].map((num) => num * blockHeight);
     ys.forEach((y) => {
       xs.forEach((x) => {
-        const block = new Block(
-          x,
-          y,
-          blockWidth - 5,
-          blockHeight - 5,
-          Color.DarkGray
-        );
+        const block = new Block(x, y, blockWidth - 5, blockHeight - 5);
         this.blocks.push(block);
         engine.add(block);
       });
