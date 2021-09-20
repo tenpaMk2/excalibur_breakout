@@ -3,6 +3,7 @@ import { Block } from "./block";
 import { Ball } from "./ball";
 import { loader } from "./resource";
 import { TwoPI } from "excalibur/dist/Util";
+import { Paddle } from "./paddle";
 
 const game = new Engine({
   width: 800,
@@ -56,6 +57,17 @@ game.start(loader).then(() => {
     repeats: false,
   });
   game.add(timer);
+
+  const paddle = new Paddle(
+    new Vector(game.canvasWidth * 0.5, game.canvasHeight * 0.95),
+    game.canvasWidth * 0.15,
+    game.canvasHeight * 0.02
+  );
+  game.add(paddle);
+
+  game.input.pointers.primary.on("move", (evt) => {
+    paddle.pos.x = evt.worldPos.x;
+  });
 
   setupBlocks(game, game.canvasWidth, game.canvasHeight);
 });
