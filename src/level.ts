@@ -38,6 +38,23 @@ export class Level extends Scene {
     const ball = new Ball(new Vector(width * 0.2, height * 0.7), height * 0.02);
     engine.add(ball);
 
+    ball.on("exitviewport", (evt) => {
+      // alert("You lose!");
+    });
+
+    ball.on("postupdate", (evt) => {
+      const radius = ball.body.collider.localBounds.width / 2;
+      if (ball.pos.x < radius) {
+        ball.vel.x *= -1;
+      }
+      if (ball.pos.x + radius > engine.drawWidth) {
+        ball.vel.x *= -1;
+      }
+      if (ball.pos.y < radius / 2) {
+        ball.vel.y *= -1;
+      }
+    });
+
     const timer = new Timer({
       fcn: () => {
         const rand = new Random();
