@@ -1,41 +1,41 @@
-import { Scene, Engine, Vector } from "excalibur";
+import { Scene, Engine, Vector, Actor } from "excalibur";
 import { Ball } from "./ball";
 import { Block } from "./block";
 import { Paddle } from "./paddle";
 
 export class Level extends Scene {
-  blocks: Block[];
-
   constructor(engine: Engine) {
     super(engine);
-
-    this.blocks = [];
   }
 
-  setupBlocks = (engine: Engine, width: number, height: number) => {
+  setupBlocks = (width: number, height: number) => {
     const numOfRow = 5;
     const numOfColumn = 10;
     const blockWidth = width / numOfRow;
     const blockHeight = (height / numOfColumn) * 0.5;
     const xs = [...Array(numOfRow).keys()].map((num) => num * blockWidth);
     const ys = [...Array(numOfColumn).keys()].map((num) => num * blockHeight);
+
+    const blocks: Actor[] = [];
     ys.forEach((y) => {
       xs.forEach((x) => {
         const block = new Block(x, y, blockWidth - 5, blockHeight - 5);
-        this.blocks.push(block);
-        engine.add(block);
+        blocks.push(block);
       });
     });
+
+    return blocks;
   };
 
   onInitialize = (engine: Engine) => {
     const width = engine.drawWidth;
     const height = engine.drawHeight;
 
-    this.setupBlocks(engine, width, height);
+    const blocks = this.setupBlocks(width, height);
+    blocks.forEach((block) => engine.add(block));
 
     const ball = new Ball(new Vector(width * 0.2, height * 0.7), height * 0.02);
-    this.blocks.forEach((block) => ball.addKillTarget(block));
+    blocks.forEach((block) => ball.addKillTarget(block));
     engine.add(ball);
 
     const paddle = new Paddle(
