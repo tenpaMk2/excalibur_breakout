@@ -72,8 +72,8 @@ export class Level extends Scene {
       fcn: () => {
         const rand = new Random();
         const r = rand.floating(-TwoPI, TwoPI);
-        const x = Math.cos(r) * 80;
-        const y = Math.sin(r) * 80;
+        const x = Math.cos(r) * 200;
+        const y = Math.sin(r) * 200;
         ball.vel.x = x;
         ball.vel.y = y;
       },
