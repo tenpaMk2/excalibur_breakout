@@ -43,6 +43,7 @@ export class Level extends Scene {
       width * 0.15,
       height * 0.02
     );
+    paddle.setFlickTarget(ball);
     engine.add(paddle);
 
     engine.input.pointers.primary.on("move", (evt) => {
