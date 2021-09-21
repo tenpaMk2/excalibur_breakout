@@ -29,7 +29,7 @@ export class Level extends Scene {
     });
   };
 
-  onInitialize(engine: ex.Engine) {
+  onInitialize = (engine: ex.Engine) => {
     const width = engine.drawWidth;
     const height = engine.drawHeight;
 
@@ -51,6 +51,19 @@ export class Level extends Scene {
         ball.vel.x *= -1;
       }
       if (ball.pos.y < radius / 2) {
+        ball.vel.y *= -1;
+      }
+    });
+
+    ball.on("precollision", (ev) => {
+      if (this.blocks.indexOf(ev.other) > -1) {
+        ev.other.kill();
+      }
+      const intersection = ev.intersection.normalize();
+
+      if (Math.abs(intersection.x) > Math.abs(intersection.y)) {
+        ball.vel.x *= -1;
+      } else {
         ball.vel.y *= -1;
       }
     });
@@ -79,5 +92,5 @@ export class Level extends Scene {
     engine.input.pointers.primary.on("move", (evt) => {
       paddle.pos.x = evt.worldPos.x;
     });
-  }
+  };
 }
