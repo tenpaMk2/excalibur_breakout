@@ -35,7 +35,9 @@ export class Paddle extends Actor {
         if (target === event.other) {
           const velPolar = VectorUtil.toPolar(target.vel);
           const diffX = target.pos.x - this.pos.x;
-          const diffY = target.pos.y - this.pos.y;
+          const diffY =
+            target.pos.y -
+            (this.pos.y + this.body.collider.localBounds.height * 4);
           const diffPolar = VectorUtil.toPolar(new Vector(diffX, diffY));
           velPolar.radian = diffPolar.radian;
           target.vel = VectorUtil.fromPolar(velPolar);
