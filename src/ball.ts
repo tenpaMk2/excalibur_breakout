@@ -22,7 +22,7 @@ export class Ball extends Actor {
       color: Color.Red,
       body: new Body({
         collider: new Collider({
-          type: CollisionType.Active,
+          type: CollisionType.Passive,
           shape: Shape.Circle(radius),
         }),
       }),

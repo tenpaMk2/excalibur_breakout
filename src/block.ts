@@ -24,7 +24,7 @@ export class Block extends Actor {
       color: color,
       body: new Body({
         collider: new Collider({
-          type: CollisionType.Active,
+          type: CollisionType.Passive,
           shape: Shape.Box(width, height, Vector.Zero),
         }),
       }),
