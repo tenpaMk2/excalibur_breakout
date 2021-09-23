@@ -16,7 +16,7 @@ import { TwoPI } from "excalibur/dist/Util";
 export class Ball extends Actor {
   public killTarget: Actor[];
 
-  constructor(pos: Vector, radius: number) {
+  constructor(pos: Vector, radius: number, public initialSpeed: number = 300) {
     super({
       pos: pos,
       color: Color.Red,
@@ -54,8 +54,8 @@ export class Ball extends Actor {
       fcn: () => {
         const rand = new Random();
         const r = rand.floating(-TwoPI, TwoPI);
-        const x = Math.cos(r) * 200;
-        const y = Math.sin(r) * 200;
+        const x = Math.cos(r) * this.initialSpeed;
+        const y = Math.sin(r) * this.initialSpeed;
         this.vel.x = x;
         this.vel.y = y;
       },
