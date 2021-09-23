@@ -13,4 +13,4 @@ game.isDebug = true;
 game.add("level", new Level(game));
 game.goToScene("level");
 
-game.start(loader).then(() => {});
+game.start(loader);
