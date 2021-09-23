@@ -34,6 +34,7 @@ export default {
     new CopyPlugin({
       patterns: [
         { from: "src/index.html", to: "." },
+        { from: "src/style.css", to: "." },
         { from: "assets", to: "assets" },
       ],
     }),
