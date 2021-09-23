@@ -3,8 +3,12 @@ import {
   Body,
   Collider,
   CollisionType,
+  EmitterType,
+  Engine,
+  ParticleEmitter,
   Shape,
   Sprite,
+  Timer,
   Vector,
 } from "excalibur";
 import { Resources } from "./resource";
@@ -32,4 +36,24 @@ export class Block extends Actor {
     this.addDrawing("front", frontSprite);
     this.setDrawing("front");
   }
+
+  onInitialize = (engine: Engine) => {
+    const emitter = new ParticleEmitter();
+    emitter.emitterType = EmitterType.Circle;
+    emitter.radius = 5;
+    emitter.minVel = 40;
+    emitter.maxVel = 120;
+    emitter.minAngle = 0;
+    emitter.maxAngle = Math.PI * 2;
+    emitter.emitRate = 10; // 300 particles/second
+    emitter.opacity = 0.3;
+    emitter.fadeFlag = true; // fade particles overtime
+    emitter.particleLife = 500; // in milliseconds = 1 sec
+    emitter.maxSize = 10; // in pixels
+    emitter.minSize = 1;
+    emitter.isEmitting = true; // should the emitter be emitting
+    // add the emitter as a child actor, it will draw on top of the parent actor
+    // and move with the parent
+    this.add(emitter);
+  };
 }
