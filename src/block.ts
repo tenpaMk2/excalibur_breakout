@@ -3,8 +3,6 @@ import {
   Body,
   Collider,
   CollisionType,
-  Color,
-  Random,
   Shape,
   Sprite,
   Vector,
