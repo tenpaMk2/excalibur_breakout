@@ -8,7 +8,6 @@ import {
   ParticleEmitter,
   Shape,
   Sprite,
-  Timer,
   Vector,
 } from "excalibur";
 import { Resources } from "./resource";
@@ -52,8 +51,6 @@ export class Block extends Actor {
     emitter.maxSize = 10; // in pixels
     emitter.minSize = 1;
     emitter.isEmitting = true; // should the emitter be emitting
-    // add the emitter as a child actor, it will draw on top of the parent actor
-    // and move with the parent
     this.add(emitter);
   };
 }
