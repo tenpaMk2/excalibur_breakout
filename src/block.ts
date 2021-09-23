@@ -37,20 +37,21 @@ export class Block extends Actor {
   }
 
   onInitialize = (engine: Engine) => {
-    const emitter = new ParticleEmitter();
-    emitter.emitterType = EmitterType.Circle;
-    emitter.radius = 5;
-    emitter.minVel = 40;
-    emitter.maxVel = 120;
-    emitter.minAngle = 0;
-    emitter.maxAngle = Math.PI * 2;
-    emitter.emitRate = 10; // 300 particles/second
-    emitter.opacity = 0.3;
-    emitter.fadeFlag = true; // fade particles overtime
-    emitter.particleLife = 500; // in milliseconds = 1 sec
-    emitter.maxSize = 10; // in pixels
-    emitter.minSize = 1;
-    emitter.isEmitting = true; // should the emitter be emitting
+    const emitter = new ParticleEmitter({
+      emitterType: EmitterType.Circle,
+      radius: 5,
+      minVel: 40,
+      maxVel: 120,
+      minAngle: 0,
+      maxAngle: Math.PI * 2,
+      emitRate: 10, // 300 particles/second
+      opacity: 0.3,
+      fadeFlag: true, // fade particles overtime
+      particleLife: 500, // in milliseconds = 1 sec
+      maxSize: 10, // in pixels
+      minSize: 1,
+      isEmitting: true, // should the emitter be emitting
+    });
     this.add(emitter);
   };
 }
