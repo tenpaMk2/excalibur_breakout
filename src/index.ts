@@ -8,7 +8,7 @@ const game = new Engine({
   displayMode: DisplayMode.Fixed,
   canvasElementId: "game",
 });
-game.isDebug = true;
+game.isDebug = false;
 
 game.add("level", new Level(game));
 game.goToScene("level");
