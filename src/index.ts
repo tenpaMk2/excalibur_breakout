@@ -3,7 +3,9 @@ import { loader } from "./resource";
 import { Level } from "./level";
 
 const game = new Engine({
-  displayMode: DisplayMode.Container,
+  width: 90 * 4,
+  height: 160 * 4,
+  displayMode: DisplayMode.Fixed,
   canvasElementId: "game",
 });
 game.isDebug = true;
