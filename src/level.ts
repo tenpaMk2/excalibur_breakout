@@ -1,4 +1,5 @@
 import { Scene, Engine, Vector, Actor } from "excalibur";
+import { Background } from "./background";
 import { Ball } from "./ball";
 import { Block } from "./block";
 import { Paddle } from "./paddle";
@@ -19,7 +20,7 @@ export class Level extends Scene {
     const blocks: Actor[] = [];
     ys.forEach((y) => {
       xs.forEach((x) => {
-        const block = new Block(x, y, blockWidth - 5, blockHeight - 5);
+        const block = new Block(x, y, blockWidth, blockHeight);
         blocks.push(block);
       });
     });
@@ -27,9 +28,20 @@ export class Level extends Scene {
     return blocks;
   };
 
+  sortZIndex = (backs: Actor[], fronts: Actor[]) => {
+    backs.forEach((back) => (back.z = 1));
+    fronts.forEach((front) => (front.z = 2));
+  };
+
   onInitialize = (engine: Engine) => {
     const width = engine.drawWidth;
     const height = engine.drawHeight;
+    const imageOriginX = -250;
+    const imageOriginY = -150;
+    const imageOffsetX = 300;
+    const imageOffsetY = 600;
+    const blockX = imageOriginX + imageOffsetX;
+    const blockY = imageOriginY + imageOffsetY;
 
     const blocks = this.setupBlocks(width, height);
     blocks.forEach((block) => engine.add(block));
@@ -49,5 +61,10 @@ export class Level extends Scene {
     engine.input.pointers.primary.on("move", (evt) => {
       paddle.pos.x = evt.worldPos.x;
     });
+
+    const background = new Background(imageOriginX, imageOriginY, 853, 1280);
+    engine.add(background);
+
+    this.sortZIndex([background], [paddle, ball, ...blocks]);
   };
 }
