@@ -10,10 +10,10 @@ export class Level extends Scene {
   }
 
   setupBlocks = (width: number, height: number) => {
-    const numOfRow = 5;
-    const numOfColumn = 10;
+    const numOfRow = 12;
+    const numOfColumn = 18;
     const blockWidth = width / numOfRow;
-    const blockHeight = (height / numOfColumn) * 0.5;
+    const blockHeight = (height / numOfColumn) * 0.9;
     const xs = [...Array(numOfRow).keys()].map((num) => num * blockWidth);
     const ys = [...Array(numOfColumn).keys()].map((num) => num * blockHeight);
 
