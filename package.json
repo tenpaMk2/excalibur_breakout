@@ -1,7 +1,7 @@
 {
   "name": "excalibur_breakout",
   "version": "0.0.1",
-  "description": "breakout game using Excalibur.js : WIP",
+  "description": "breakout game using Excalibur.js",
   "type": "module",
   "main": "dist/index.html",
   "scripts": {
