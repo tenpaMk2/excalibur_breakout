@@ -53,7 +53,7 @@ export class Ball extends Actor {
     const timer = new Timer({
       fcn: () => {
         const rand = new Random();
-        const r = rand.floating(-TwoPI, TwoPI);
+        const r = rand.floating(Math.PI * 0.25, Math.PI * 0.75);
         const x = Math.cos(r) * this.initialSpeed;
         const y = Math.sin(r) * this.initialSpeed;
         this.vel.x = x;
