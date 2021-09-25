@@ -2,6 +2,7 @@ import { Scene, Engine, Vector, Actor } from "excalibur";
 import { Background } from "./background";
 import { Ball } from "./ball";
 import { Block } from "./block";
+import { GameOverScreen } from "./gameover_screen";
 import { Paddle } from "./paddle";
 
 export class Level extends Scene {
@@ -28,9 +29,8 @@ export class Level extends Scene {
     return blocks;
   };
 
-  sortZIndex = (backs: Actor[], fronts: Actor[]) => {
-    backs.forEach((back) => (back.z = 1));
-    fronts.forEach((front) => (front.z = 2));
+  sortZIndex = (sortedActors: Actor[]) => {
+    sortedActors.forEach((actor, idx) => (actor.z = idx));
   };
 
   onInitialize = (engine: Engine) => {
@@ -65,6 +65,14 @@ export class Level extends Scene {
     const background = new Background(imageOriginX, imageOriginY, 853, 1280);
     engine.add(background);
 
-    this.sortZIndex([background], [paddle, ball, ...blocks]);
+    const gameOverScreen = new GameOverScreen(
+      engine.drawWidth,
+      engine.drawHeight
+    );
+    engine.add(gameOverScreen);
+    gameOverScreen.visible = false;
+    ball.addScreenTarget(gameOverScreen);
+
+    this.sortZIndex([background, paddle, ball, ...blocks, gameOverScreen]);
   };
 }

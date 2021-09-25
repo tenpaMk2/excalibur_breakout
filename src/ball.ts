@@ -11,10 +11,9 @@ import {
   Timer,
   Vector,
 } from "excalibur";
-import { TwoPI } from "excalibur/dist/Util";
-
 export class Ball extends Actor {
   public killTarget: Actor[];
+  public screenTarget: Actor[];
 
   constructor(pos: Vector, radius: number, public initialSpeed: number = 300) {
     super({
@@ -29,11 +28,12 @@ export class Ball extends Actor {
     });
 
     this.killTarget = [];
+    this.screenTarget = [];
   }
 
   onInitialize = (engine: Engine) => {
     this.on("exitviewport", (evt) => {
-      // alert("You lose!");
+      this.screenTarget.forEach((target) => (target.visible = true));
     });
 
     this.on("preCollision", (event: PreCollisionEvent) => {
@@ -80,5 +80,9 @@ export class Ball extends Actor {
 
   addKillTarget = (target: Actor) => {
     this.killTarget.push(target);
+  };
+
+  addScreenTarget = (target: Actor) => {
+    this.screenTarget.push(target);
   };
 }
