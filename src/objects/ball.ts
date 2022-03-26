@@ -3,14 +3,11 @@ import {
   CollisionType,
   Color,
   Engine,
-  PreCollisionEvent,
   Random,
   Timer,
   Vector,
 } from "excalibur";
 export class Ball extends Actor {
-  public killTarget: Actor[];
-
   constructor(pos: Vector, radius: number, public initialSpeed: number = 300) {
     super({
       pos: pos,
@@ -18,27 +15,11 @@ export class Ball extends Actor {
       radius: radius,
       collisionType: CollisionType.Passive,
     });
-
-    this.killTarget = [];
   }
 
   onInitialize = (engine: Engine) => {
     this.on("exitviewport", (evt) => {
       this.kill();
-    });
-
-    this.on("preCollision", (event: PreCollisionEvent) => {
-      const intersection = event.intersection.normalize();
-
-      if (Math.abs(intersection.x) > Math.abs(intersection.y)) {
-        this.vel.x *= -1;
-      } else {
-        this.vel.y *= -1;
-      }
-
-      if (this.killTarget.indexOf(event.other) > -1) {
-        event.other.kill();
-      }
     });
 
     const timer = new Timer({
@@ -67,9 +48,5 @@ export class Ball extends Actor {
     if (this.pos.y < this.height / 2) {
       this.vel.y *= -1;
     }
-  };
-
-  addKillTarget = (target: Actor) => {
-    this.killTarget.push(target);
   };
 }

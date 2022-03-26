@@ -8,6 +8,7 @@ import {
   Font,
   TextAlign,
   PreCollisionEvent,
+  GameEvent,
 } from "excalibur";
 import { Background } from "../objects/background";
 import { Ball } from "../objects/ball";
@@ -62,7 +63,6 @@ export class Level extends Scene {
     blocks.forEach((block) => engine.add(block));
 
     this.ball = new Ball(new Vector(width * 0.2, height * 0.7), height * 0.02);
-    blocks.forEach((block) => this.ball.addKillTarget(block));
     engine.add(this.ball);
 
     const paddle = new Paddle(
@@ -88,6 +88,23 @@ export class Level extends Scene {
       const diffPolar = VectorUtil.toPolar(new Vector(diffX, diffY));
       velPolar.radian = diffPolar.radian;
       this.ball.vel = VectorUtil.fromPolar(velPolar);
+    });
+
+    this.ball.on("preCollision", (event: PreCollisionEvent) => {
+      const intersection = event.intersection.normalize();
+
+      if (Math.abs(intersection.x) > Math.abs(intersection.y)) {
+        this.ball.vel.x *= -1;
+      } else {
+        this.ball.vel.y *= -1;
+      }
+    });
+
+    blocks.forEach((block) => {
+      block.on("preCollision", (event: PreCollisionEvent) => {
+        if (event.other !== this.ball) return;
+        block.kill();
+      });
     });
   };
 
