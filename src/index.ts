@@ -1,4 +1,4 @@
-import { DisplayMode, Engine } from "excalibur";
+import { DisplayMode, Engine, Physics, Vector } from "excalibur";
 import { loader } from "./resource";
 import { Level } from "./scenes/level";
 
@@ -12,4 +12,7 @@ const game = new Engine({
 game.add("level", new Level(game));
 game.goToScene("level");
 
+Physics.useRealisticPhysics();
+Physics.acc = new Vector(300, 0);
+Physics.positionIterations = 8;
 game.start(loader);

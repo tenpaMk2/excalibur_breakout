@@ -11,5 +11,7 @@ export class Paddle extends Actor {
       height: height,
       collisionType: CollisionType.Fixed,
     });
+
+    this.body.bounciness = 1;
   }
 }

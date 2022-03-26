@@ -8,6 +8,7 @@ import {
   Font,
   TextAlign,
   PreCollisionEvent,
+  CollisionType,
 } from "excalibur";
 import { Background } from "../objects/background";
 import { Ball } from "../objects/ball";
@@ -28,7 +29,7 @@ export class Level extends Scene {
     const numOfRow = 12;
     const numOfColumn = 18;
     const blockWidth = width / numOfRow;
-    const blockHeight = (height / numOfColumn) * 0.9;
+    const blockHeight = (height / numOfColumn) * 0.6;
     const xs = [...Array(numOfRow).keys()].map((num) => num * blockWidth);
     const ys = [...Array(numOfColumn).keys()].map((num) => num * blockHeight);
 
@@ -64,7 +65,6 @@ export class Level extends Scene {
     blocks.forEach((block) => engine.add(block));
 
     this.ball = new Ball(new Vector(width * 0.2, height * 0.7), height * 0.02);
-    blocks.forEach((block) => this.ball.addKillTarget(block));
     engine.add(this.ball);
 
     const paddle = new Paddle(
@@ -80,16 +80,54 @@ export class Level extends Scene {
     });
 
     // Collisions
-    paddle.on("preCollision", (event: PreCollisionEvent) => {
-      if (this.ball !== event.other) {
-        return;
-      }
-      const velPolar = VectorUtil.toPolar(this.ball.vel);
-      const diffX = this.ball.pos.x - paddle.pos.x;
-      const diffY = this.ball.pos.y - (paddle.pos.y + paddle.height * 4);
-      const diffPolar = VectorUtil.toPolar(new Vector(diffX, diffY));
-      velPolar.radian = diffPolar.radian;
-      this.ball.vel = VectorUtil.fromPolar(velPolar);
+
+    // paddle.on("preCollision", (event: PreCollisionEvent) => {
+    //   if (this.ball !== event.other) {
+    //     return;
+    //   }
+    //   const velPolar = VectorUtil.toPolar(this.ball.vel);
+    //   const diffX = this.ball.pos.x - paddle.pos.x;
+    //   const diffY = this.ball.pos.y - (paddle.pos.y + paddle.height * 4);
+    //   const diffPolar = VectorUtil.toPolar(new Vector(diffX, diffY));
+    //   velPolar.radian = diffPolar.radian;
+    //   this.ball.vel = VectorUtil.fromPolar(velPolar);
+    // });
+
+    const top = new Actor({
+      x: engine.drawWidth / 2,
+      y: 0,
+      width: engine.drawWidth,
+      height: 10,
+      color: new Color(0x00, 0xff, 0xff),
+      collisionType: CollisionType.Fixed,
+    });
+    engine.add(top);
+
+    const right = new Actor({
+      x: engine.drawWidth,
+      y: engine.drawHeight / 2,
+      width: 10,
+      height: engine.drawHeight,
+      color: new Color(0x00, 0xff, 0xff),
+      collisionType: CollisionType.Fixed,
+    });
+    right.body.bounciness = 1;
+    engine.add(right);
+
+    const left = new Actor({
+      x: 0,
+      y: engine.drawHeight / 2,
+      width: 10,
+      height: engine.drawHeight,
+      color: new Color(0x00, 0xff, 0xff),
+      collisionType: CollisionType.Fixed,
+    });
+    engine.add(left);
+
+    blocks.forEach((block) => {
+      block.on("postcollision", () => {
+        block.kill();
+      });
     });
   };
 

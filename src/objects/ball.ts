@@ -9,38 +9,30 @@ import {
   Vector,
 } from "excalibur";
 export class Ball extends Actor {
-  public killTarget: Actor[];
-  public screenTarget: Actor[];
-
   constructor(pos: Vector, radius: number, public initialSpeed: number = 300) {
     super({
       pos: pos,
       color: Color.Red,
       radius: radius,
-      collisionType: CollisionType.Passive,
+      collisionType: CollisionType.Active,
     });
 
-    this.killTarget = [];
+    this.body.bounciness = 1;
   }
 
   onInitialize = (engine: Engine) => {
     this.on("exitviewport", (evt) => {
       this.kill();
-      // this.screenTarget.forEach((target) => (target.graphics.visible = true));
     });
 
     this.on("preCollision", (event: PreCollisionEvent) => {
-      const intersection = event.intersection.normalize();
-
-      if (Math.abs(intersection.x) > Math.abs(intersection.y)) {
-        this.vel.x *= -1;
-      } else {
-        this.vel.y *= -1;
-      }
-
-      if (this.killTarget.indexOf(event.other) > -1) {
-        event.other.kill();
-      }
+      // const intersection = event.intersection.normalize();
+      //
+      // if (Math.abs(intersection.x) > Math.abs(intersection.y)) {
+      //   this.vel.x *= -1;
+      // } else {
+      //   this.vel.y *= -1;
+      // }
     });
 
     const timer = new Timer({
@@ -56,22 +48,8 @@ export class Ball extends Actor {
       repeats: false,
     });
     engine.add(timer);
-    timer.start();
+    // timer.start();
   };
 
-  onPostUpdate = (engine: Engine) => {
-    if (this.pos.x < this.width / 2) {
-      this.vel.x *= -1;
-    }
-    if (this.pos.x + this.width / 2 > engine.drawWidth) {
-      this.vel.x *= -1;
-    }
-    if (this.pos.y < this.height / 2) {
-      this.vel.y *= -1;
-    }
-  };
-
-  addKillTarget = (target: Actor) => {
-    this.killTarget.push(target);
-  };
+  onPostUpdate = (engine: Engine) => {};
 }

@@ -16,7 +16,7 @@ export class Block extends Actor {
       anchor: Vector.Zero,
       width: width,
       height: height,
-      collisionType: CollisionType.Passive,
+      collisionType: CollisionType.Fixed,
     });
 
     const frontSprite = new Sprite({
