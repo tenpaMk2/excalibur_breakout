@@ -55,6 +55,9 @@ export class Level extends Scene {
     const blockX = imageOriginX + imageOffsetX;
     const blockY = imageOriginY + imageOffsetY;
 
+    const background = new Background(imageOriginX, imageOriginY, 853, 1280);
+    engine.add(background);
+
     const blocks = this.setupBlocks(width, height);
     blocks.forEach((block) => engine.add(block));
 
@@ -73,11 +76,6 @@ export class Level extends Scene {
     engine.input.pointers.primary.on("move", (evt) => {
       paddle.pos.x = evt.worldPos.x;
     });
-
-    const background = new Background(imageOriginX, imageOriginY, 853, 1280);
-    engine.add(background);
-
-    this.sortZIndex([background, paddle, this.ball, ...blocks]);
   };
 
   onPreUpdate(_engine: Engine, _delta: number): void {
