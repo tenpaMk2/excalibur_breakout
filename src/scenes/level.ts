@@ -54,8 +54,6 @@ export class Level extends Scene {
     const imageOriginY = -150;
     const imageOffsetX = 300;
     const imageOffsetY = 600;
-    const blockX = imageOriginX + imageOffsetX;
-    const blockY = imageOriginY + imageOffsetY;
 
     const background = new Background(imageOriginX, imageOriginY, 853, 1280);
     engine.add(background);

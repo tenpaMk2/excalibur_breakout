@@ -10,7 +10,6 @@ import {
 } from "excalibur";
 export class Ball extends Actor {
   public killTarget: Actor[];
-  public screenTarget: Actor[];
 
   constructor(pos: Vector, radius: number, public initialSpeed: number = 300) {
     super({
@@ -26,7 +25,6 @@ export class Ball extends Actor {
   onInitialize = (engine: Engine) => {
     this.on("exitviewport", (evt) => {
       this.kill();
-      // this.screenTarget.forEach((target) => (target.graphics.visible = true));
     });
 
     this.on("preCollision", (event: PreCollisionEvent) => {
