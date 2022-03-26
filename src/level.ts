@@ -7,12 +7,14 @@ import {
   Color,
   Font,
   TextAlign,
+  PreCollisionEvent,
 } from "excalibur";
 import { Background } from "./background";
 import { Ball } from "./ball";
 import { Block } from "./block";
 import { GameOverScreen } from "./gameover_screen";
 import { Paddle } from "./paddle";
+import { VectorUtil } from "./vector_util";
 
 export class Level extends Scene {
   ball: Ball;
@@ -70,11 +72,24 @@ export class Level extends Scene {
       width * 0.15,
       height * 0.02
     );
-    paddle.setFlickTarget(this.ball);
     engine.add(paddle);
 
+    // Inputs
     engine.input.pointers.primary.on("move", (evt) => {
       paddle.pos.x = evt.worldPos.x;
+    });
+
+    // Collisions
+    paddle.on("preCollision", (event: PreCollisionEvent) => {
+      if (this.ball !== event.other) {
+        return;
+      }
+      const velPolar = VectorUtil.toPolar(this.ball.vel);
+      const diffX = this.ball.pos.x - paddle.pos.x;
+      const diffY = this.ball.pos.y - (paddle.pos.y + paddle.height * 4);
+      const diffPolar = VectorUtil.toPolar(new Vector(diffX, diffY));
+      velPolar.radian = diffPolar.radian;
+      this.ball.vel = VectorUtil.fromPolar(velPolar);
     });
   };
 
