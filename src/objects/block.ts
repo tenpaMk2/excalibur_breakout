@@ -48,7 +48,7 @@ export class Block extends Actor {
       maxSize: 10, // in pixels
       minSize: 1,
       isEmitting: true, // should the emitter be emitting
-      pos: this.pos,
+      pos: this.pos.add(new Vector(this.width / 2, this.height / 2)),
     });
     this.addChild(emitter);
     engine.add(emitter);
