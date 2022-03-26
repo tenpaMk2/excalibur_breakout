@@ -33,21 +33,24 @@ export class Block extends Actor {
   }
 
   onInitialize = (engine: Engine) => {
-    // const emitter = new ParticleEmitter({
-    //   emitterType: EmitterType.Circle,
-    //   radius: 5,
-    //   minVel: 40,
-    //   maxVel: 120,
-    //   minAngle: 0,
-    //   maxAngle: Math.PI * 2,
-    //   emitRate: 10, // 300 particles/second
-    //   opacity: 0.3,
-    //   fadeFlag: true, // fade particles overtime
-    //   particleLife: 500, // in milliseconds = 1 sec
-    //   maxSize: 10, // in pixels
-    //   minSize: 1,
-    //   isEmitting: true, // should the emitter be emitting
-    // });
-    // this.add(emitter);
+    // https://excaliburjs.com/docs/particles
+    const emitter = new ParticleEmitter({
+      emitterType: EmitterType.Circle,
+      radius: 5,
+      minVel: 40,
+      maxVel: 120,
+      minAngle: 0,
+      maxAngle: Math.PI * 2,
+      emitRate: 10, // 300 particles/second
+      opacity: 0.3,
+      fadeFlag: true, // fade particles overtime
+      particleLife: 500, // in milliseconds = 1 sec
+      maxSize: 10, // in pixels
+      minSize: 1,
+      isEmitting: true, // should the emitter be emitting
+      pos: this.pos,
+    });
+    this.addChild(emitter);
+    engine.add(emitter);
   };
 }
