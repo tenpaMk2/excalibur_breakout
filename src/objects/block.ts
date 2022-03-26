@@ -7,7 +7,7 @@ import {
   Sprite,
   Vector,
 } from "excalibur";
-import { Resources } from "./resource";
+import { Resources } from "../resource";
 
 export class Block extends Actor {
   constructor(x: number, y: number, width: number, height: number) {

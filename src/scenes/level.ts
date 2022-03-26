@@ -9,12 +9,12 @@ import {
   TextAlign,
   PreCollisionEvent,
 } from "excalibur";
-import { Background } from "./background";
-import { Ball } from "./ball";
-import { Block } from "./block";
-import { GameOverScreen } from "./gameover_screen";
-import { Paddle } from "./paddle";
-import { VectorUtil } from "./vector_util";
+import { Background } from "../objects/background";
+import { Ball } from "../objects/ball";
+import { Block } from "../objects/block";
+import { GameOverScreen } from "../objects/gameover_screen";
+import { Paddle } from "../objects/paddle";
+import { VectorUtil } from "../utilities/vector_util";
 
 export class Level extends Scene {
   ball: Ball;

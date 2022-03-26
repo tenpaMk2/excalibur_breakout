@@ -1,5 +1,5 @@
 import { Actor, CollisionType, Sprite, Vector } from "excalibur";
-import { Resources } from "./resource";
+import { Resources } from "../resource";
 
 export class Background extends Actor {
   constructor(x: number, y: number, width: number, height: number) {

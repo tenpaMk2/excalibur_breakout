@@ -1,11 +1,4 @@
-import {
-  Actor,
-  CollisionType,
-  Color,
-  Label,
-  TextAlign,
-  Vector,
-} from "excalibur";
+import { Actor, CollisionType, Color, Vector } from "excalibur";
 
 export class GameOverScreen extends Actor {
   constructor(width: number, height: number) {

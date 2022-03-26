@@ -1,6 +1,6 @@
 import { DisplayMode, Engine } from "excalibur";
 import { loader } from "./resource";
-import { Level } from "./level";
+import { Level } from "./scenes/level";
 
 const game = new Engine({
   width: 90 * 4,
