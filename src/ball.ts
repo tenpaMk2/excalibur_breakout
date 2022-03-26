@@ -1,13 +1,10 @@
 import {
   Actor,
-  Body,
-  Collider,
   CollisionType,
   Color,
   Engine,
   PreCollisionEvent,
   Random,
-  Shape,
   Timer,
   Vector,
 } from "excalibur";
@@ -19,21 +16,17 @@ export class Ball extends Actor {
     super({
       pos: pos,
       color: Color.Red,
-      body: new Body({
-        collider: new Collider({
-          type: CollisionType.Passive,
-          shape: Shape.Circle(radius),
-        }),
-      }),
+      radius: radius,
+      collisionType: CollisionType.Passive,
     });
 
     this.killTarget = [];
-    this.screenTarget = [];
   }
 
   onInitialize = (engine: Engine) => {
     this.on("exitviewport", (evt) => {
-      this.screenTarget.forEach((target) => (target.visible = true));
+      this.kill();
+      // this.screenTarget.forEach((target) => (target.graphics.visible = true));
     });
 
     this.on("preCollision", (event: PreCollisionEvent) => {
@@ -63,26 +56,22 @@ export class Ball extends Actor {
       repeats: false,
     });
     engine.add(timer);
+    timer.start();
   };
 
   onPostUpdate = (engine: Engine) => {
-    const radius = this.body.collider.localBounds.width / 2;
-    if (this.pos.x < radius) {
+    if (this.pos.x < this.width / 2) {
       this.vel.x *= -1;
     }
-    if (this.pos.x + radius > engine.drawWidth) {
+    if (this.pos.x + this.width / 2 > engine.drawWidth) {
       this.vel.x *= -1;
     }
-    if (this.pos.y < radius / 2) {
+    if (this.pos.y < this.height / 2) {
       this.vel.y *= -1;
     }
   };
 
   addKillTarget = (target: Actor) => {
     this.killTarget.push(target);
-  };
-
-  addScreenTarget = (target: Actor) => {
-    this.screenTarget.push(target);
   };
 }

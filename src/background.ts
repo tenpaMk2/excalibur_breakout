@@ -1,4 +1,4 @@
-import { Actor, Body, Collider, Shape, Sprite, Vector } from "excalibur";
+import { Actor, CollisionType, Sprite, Vector } from "excalibur";
 import { Resources } from "./resource";
 
 export class Background extends Actor {
@@ -6,15 +6,21 @@ export class Background extends Actor {
     super({
       pos: new Vector(x, y),
       anchor: Vector.Zero,
-      body: new Body({
-        collider: new Collider({
-          shape: Shape.Box(width, height, Vector.Zero),
-        }),
-      }),
+      width: width,
+      height: height,
+      collisionType: CollisionType.PreventCollision,
     });
 
-    const backSprite = new Sprite(Resources.back, 0, 0, 853, 1280);
-    this.addDrawing("back", backSprite);
-    this.setDrawing("back");
+    const backSprite = new Sprite({
+      image: Resources.back,
+      sourceView: {
+        x: 0,
+        y: 0,
+        width: 853,
+        height: 1280,
+      },
+    });
+    this.graphics.add(backSprite);
+    this.graphics.show("back");
   }
 }

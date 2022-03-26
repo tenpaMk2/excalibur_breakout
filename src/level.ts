@@ -1,4 +1,13 @@
-import { Scene, Engine, Vector, Actor } from "excalibur";
+import {
+  Scene,
+  Engine,
+  Vector,
+  Actor,
+  Label,
+  Color,
+  Font,
+  TextAlign,
+} from "excalibur";
 import { Background } from "./background";
 import { Ball } from "./ball";
 import { Block } from "./block";
@@ -6,8 +15,11 @@ import { GameOverScreen } from "./gameover_screen";
 import { Paddle } from "./paddle";
 
 export class Level extends Scene {
+  ball: Ball;
+  gameOverScreen: GameOverScreen;
+
   constructor(engine: Engine) {
-    super(engine);
+    super();
   }
 
   setupBlocks = (width: number, height: number) => {
@@ -46,16 +58,16 @@ export class Level extends Scene {
     const blocks = this.setupBlocks(width, height);
     blocks.forEach((block) => engine.add(block));
 
-    const ball = new Ball(new Vector(width * 0.2, height * 0.7), height * 0.02);
-    blocks.forEach((block) => ball.addKillTarget(block));
-    engine.add(ball);
+    this.ball = new Ball(new Vector(width * 0.2, height * 0.7), height * 0.02);
+    blocks.forEach((block) => this.ball.addKillTarget(block));
+    engine.add(this.ball);
 
     const paddle = new Paddle(
       new Vector(width * 0.5, height * 0.95),
       width * 0.15,
       height * 0.02
     );
-    paddle.setFlickTarget(ball);
+    paddle.setFlickTarget(this.ball);
     engine.add(paddle);
 
     engine.input.pointers.primary.on("move", (evt) => {
@@ -65,14 +77,30 @@ export class Level extends Scene {
     const background = new Background(imageOriginX, imageOriginY, 853, 1280);
     engine.add(background);
 
-    const gameOverScreen = new GameOverScreen(
-      engine.drawWidth,
-      engine.drawHeight
-    );
-    engine.add(gameOverScreen);
-    gameOverScreen.visible = false;
-    ball.addScreenTarget(gameOverScreen);
-
-    this.sortZIndex([background, paddle, ball, ...blocks, gameOverScreen]);
+    this.sortZIndex([background, paddle, this.ball, ...blocks]);
   };
+
+  onPreUpdate(_engine: Engine, _delta: number): void {
+    if (this.ball.isKilled() && !this.gameOverScreen) {
+      this.gameOverScreen = new GameOverScreen(
+        _engine.drawWidth,
+        _engine.drawHeight
+      );
+      _engine.add(this.gameOverScreen);
+
+      const label = new Label({
+        text: "GameOver",
+        pos: new Vector(_engine.drawWidth / 2, _engine.drawHeight / 2),
+        color: new Color(0xff, 0xff, 0xff),
+        font: new Font({
+          size: 48,
+          textAlign: TextAlign.Center,
+        }),
+      });
+      _engine.add(label);
+
+      this.gameOverScreen.z = 10000;
+      label.z = this.gameOverScreen.z + 1;
+    }
+  }
 }
